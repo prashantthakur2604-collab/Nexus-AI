@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user settings and metadata.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "ResearchLog": {
+      "title": "Research Log",
+      "description": "Records of AI-powered research queries and results.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "query": { "type": "string" },
+        "result": { "type": "object" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["userId", "query", "result", "timestamp"]
+    },
+    "AIAgent": {
+      "title": "AI Agent",
+      "description": "Custom AI agent configuration.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "configuring", "offline"] },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "role", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user profile documents."
+    },
+    "/research_logs/{logId}": {
+      "schema": "ResearchLog",
+      "description": "Research logs accessible by the owner."
+    },
+    "/ai_agents/{agentId}": {
+      "schema": "AIAgent",
+      "description": "Custom AI agents managed by users."
+    }
+  }
+}
